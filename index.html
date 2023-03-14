@@ -1,0 +1,161 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+     <!-- <link rel="stylesheet" href="style.css"> -->
+     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');   
+*
+{
+    font-family: 'Poppins', sans-serif;
+}
+body{
+  background: linear-gradient(to left bottom,#9451c6,#8247b8,#4c1c77,#391061);
+  background-size:100%;
+}
+h1{
+    color: white;
+}
+#container2
+{
+
+position: absolute;
+top: 50%;
+left: 20%;
+}
+#container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 15%;
+    left: 60%;
+    width: 450px;
+    height:600px;
+   background-image: url('https://i.pinimg.com/564x/b0/4c/c6/b04cc64b420bdcedee3cc48160abc3f5.jpg');
+    border: none;
+    outline: none;
+    border-top: 1px rgb(255,255,255,0.6);
+    border-radius: 20px;
+    box-shadow: 2px 2px 4px ;
+}
+#result
+{
+    position: absolute;
+    top:2%;
+    left: 22%;
+}
+#other-result
+{
+    display:flex;
+    flex-direction: row; 
+    position:relative;
+    top: 280%;
+    left: -10%;
+}
+
+#wind,#hum,#Rain
+{
+    margin-top: 50%;
+    margin-right:10%;
+}
+#search{
+    width: 300px;
+    height: 40px;
+   border-radius: 10px;
+   padding-left: 100px;
+}
+input[type="button"]
+{
+    width: 150px;
+    height: 30px;
+}
+
+     </style>
+   
+</head>
+<body>
+    <center>
+        <h1><u> WEATHER APPLICATION </h1>
+ 
+    </center>
+       <div id="container2">
+        <center>
+          <div id="content">
+            <input type="text" id="search" placeholder="enter the city">
+            <br>
+            <br>
+            <input type="button" onclick="getweather()" value="search">
+            <br><br><br>
+        </center>
+        </div>
+    </div>
+    <center>
+            <div id="container">
+        <div id="result">
+            <img src="http://openweathermap.org/img/wn/10d@2x.png"  id="img" alt="" height="140px">
+            <h2><span id="temp">30</span><span> °F</span></h2>
+            <h2 id="cityname">-------</h2>
+            <div>
+               <h2 id="weather-type">-----------</h2>
+            </div>
+         
+         <div id="other-result">
+                <div id="wind">
+                <h2>WIND</h2>
+                    <span id="win">0</span><span> KM</span>
+                </div>
+                <div id="hum">
+                    <h2>HUMIDITY</h2> 
+                 <span id="humi">0</span><span> g.m-3</span>
+                </div>
+                <div id="rain">
+                    <h2>PRESSURE</h2>
+                    <span id="rai">0</span><span> Pa</span>
+                </div>
+            </div>
+
+        </div>
+    </center>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script>
+const base="https://api.openweathermap.org/data/2.5/"
+const key="9f35c0573c958ccc1fc65e5d65dcec32"
+let cit=document.getElementById('search')
+var temp=document.getElementById('temp')
+var iname=document.getElementById('cityname')
+var wea=document.getElementById('weather-type')
+var wind=document.getElementById('win')
+var humidity=document.getElementById('humi')
+var rain=document.getElementById('rai')
+var image=document.getElementById('img')
+async function getweather()
+{
+    const data=await fetch(`${base}weather?q=${cit.value}&appid=${key}`)
+      console.log(data);
+      if(data.status==200)
+      {
+        const info= await data.json();
+        console.log(info);
+        iname.innerHTML=info.name
+        temp.innerHTML=info.main.temp
+        wea.innerHTML=info.weather[0].main
+        image.src=`https://openweathermap.org/img/wn/${info.weather[0].icon}@2x.png`
+        wind.innerHTML=info.wind.speed
+        humidity.innerHTML=info.main.humidity
+        rain.innerHTML=info.main.pressure
+    
+    }
+    else
+    {
+        alert("oor pera seriya adra en !!!!");
+    }
+      
+      
+}
+    </script>
+
+</body>
+</html>
